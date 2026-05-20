@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "es2023",
+    "lib": ["ES2023", "DOM"],
+    "module": "esnext",
+    "types": ["vite/client"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": [
+    "src/main.tsx",
+    "src/styled.d.ts",
+    "src/app/App.tsx",
+    "src/app/GlobalStyles.tsx",
+    "src/app/routes.tsx",
+    "src/app/theme.ts",
+    "src/app/types.ts",
+    "src/app/data/mockData.ts",
+    "src/app/components/Layout.tsx",
+    "src/app/pages/MainPage.tsx",
+    "src/app/pages/LiveDebatePage.tsx",
+    "src/app/pages/PostDetail.tsx",
+    "src/app/pages/PastDebatesPage.tsx",
+    "src/app/pages/PastDebateDetail.tsx"
+  ]
+}
