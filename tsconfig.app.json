@@ -29,12 +29,21 @@
     "src/app/routes.tsx",
     "src/app/theme.ts",
     "src/app/types.ts",
+    "src/app/data/communityData.ts",
+    "src/app/data/liveDebateRooms.ts",
     "src/app/data/mockData.ts",
+    "src/app/components/AuthShell.tsx",
     "src/app/components/Layout.tsx",
+    "src/app/pages/CommunityPage.tsx",
+    "src/app/pages/ForgotPasswordPage.tsx",
     "src/app/pages/MainPage.tsx",
     "src/app/pages/LiveDebatePage.tsx",
+    "src/app/pages/LiveDebateRoomPage.tsx",
+    "src/app/pages/LoginPage.tsx",
+    "src/app/pages/NewCommunityPostPage.tsx",
     "src/app/pages/PostDetail.tsx",
     "src/app/pages/PastDebatesPage.tsx",
-    "src/app/pages/PastDebateDetail.tsx"
+    "src/app/pages/PastDebateDetail.tsx",
+    "src/app/pages/SignupPage.tsx"
   ]
 }

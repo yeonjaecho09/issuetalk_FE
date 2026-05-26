@@ -1,6 +1,6 @@
 import { Link, Outlet, useLocation } from 'react-router';
 import styled from 'styled-components';
-import { MessageCircle, Radio, Trophy } from 'lucide-react';
+import { LogIn, MessageCircle, Radio, Trophy, UserPlus } from 'lucide-react';
 
 const LayoutContainer = styled.div`
   min-height: 100vh;
@@ -32,11 +32,9 @@ const HeaderContent = styled.div`
   justify-content: space-between;
   gap: ${props => props.theme.spacing[4]};
 
-  @media (max-width: 768px) {
-    min-height: auto;
+  @media (max-width: 980px) {
     padding: ${props => props.theme.spacing[4]} 0;
-    flex-direction: column;
-    align-items: stretch;
+    flex-wrap: wrap;
   }
 `;
 
@@ -87,11 +85,18 @@ const Nav = styled.nav`
   display: flex;
   align-items: center;
   gap: ${props => props.theme.spacing[2]};
+  flex: 1;
+  justify-content: center;
+
+  @media (max-width: 980px) {
+    order: 3;
+    width: 100%;
+    justify-content: stretch;
+  }
 
   @media (max-width: 768px) {
-    width: 100%;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 `;
 
@@ -126,6 +131,49 @@ const NavLink = styled(Link)<{ $isActive?: boolean; $live?: boolean }>`
       color: ${props.theme.colors.primary};
     }
   `}
+`;
+
+const HeaderActions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${props => props.theme.spacing[3]};
+
+  @media (max-width: 980px) {
+    margin-left: auto;
+  }
+
+  @media (max-width: 640px) {
+    width: 100%;
+  }
+`;
+
+const ActionLink = styled(Link)<{ $primary?: boolean }>`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: ${props => props.theme.spacing[2]};
+  min-height: 2.9rem;
+  padding: 0 ${props => props.theme.spacing[5]};
+  border-radius: ${props => props.theme.borderRadius.xl};
+  border: 1px solid ${props => (props.$primary ? 'transparent' : props.theme.colors.border)};
+  color: ${props => (props.$primary ? props.theme.colors.primaryForeground : props.theme.colors.foreground)};
+  background: ${props =>
+    props.$primary
+      ? `linear-gradient(135deg, ${props.theme.colors.primary}, ${props.theme.colors.accent})`
+      : 'rgba(255, 255, 255, 0.72)'};
+  box-shadow: ${props => (props.$primary ? props.theme.shadows.md : 'none')};
+  font-size: ${props => props.theme.fontSizes.sm};
+  font-weight: ${props => props.theme.fontWeights.semibold};
+  transition: transform ${props => props.theme.transitions.fast}, border-color ${props => props.theme.transitions.fast};
+
+  &:hover {
+    transform: translateY(-1px);
+    border-color: ${props => (props.$primary ? 'transparent' : props.theme.colors.primary)};
+  }
+
+  @media (max-width: 640px) {
+    flex: 1;
+  }
 `;
 
 const Footer = styled.footer`
@@ -203,8 +251,8 @@ export function Layout() {
                 <MessageCircle size={22} />
               </LogoIcon>
               <LogoCopy>
-                <LogoText>이슈톡</LogoText>
-                <LogoCaption>건강한 토론과 커뮤니티를 위한 공간</LogoCaption>
+                <LogoText>IssueTalk</LogoText>
+                <LogoCaption>토론과 커뮤니티를 위한 공론장</LogoCaption>
               </LogoCopy>
             </LogoLink>
 
@@ -212,6 +260,10 @@ export function Layout() {
               <NavLink to="/" $isActive={location.pathname === '/'}>
                 <MessageCircle size={16} />
                 메인
+              </NavLink>
+              <NavLink to="/community" $isActive={location.pathname.startsWith('/community')}>
+                <MessageCircle size={16} />
+                커뮤니티
               </NavLink>
               <NavLink to="/live" $isActive={location.pathname === '/live'} $live>
                 <Radio size={16} />
@@ -225,6 +277,17 @@ export function Layout() {
                 지난 토론
               </NavLink>
             </Nav>
+
+            <HeaderActions>
+              <ActionLink to="/login">
+                <LogIn size={16} />
+                로그인
+              </ActionLink>
+              <ActionLink to="/signup" $primary>
+                <UserPlus size={16} />
+                회원가입
+              </ActionLink>
+            </HeaderActions>
           </HeaderContent>
         </HeaderContainer>
       </Header>
@@ -239,11 +302,11 @@ export function Layout() {
                 <MessageCircle size={16} />
               </FooterIcon>
               <FooterText>
-                <FooterTitle>이슈톡</FooterTitle>
-                <FooterCaption>생각이 부딪히고 관점이 넓어지는 토론 플랫폼</FooterCaption>
+                <FooterTitle>IssueTalk</FooterTitle>
+                <FooterCaption>관심 있는 이슈를 더 깊고 선명하게 나누는 토론 플랫폼</FooterCaption>
               </FooterText>
             </FooterBrand>
-            <Copyright>© 2026 이슈톡. 더 나은 대화 문화를 만듭니다.</Copyright>
+            <Copyright>© 2026 IssueTalk. 더 나은 공론장 문화를 만들어갑니다.</Copyright>
           </FooterContent>
         </FooterContainer>
       </Footer>
