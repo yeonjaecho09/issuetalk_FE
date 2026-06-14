@@ -7,10 +7,16 @@ import { PostDetail } from './pages/PostDetail';
 import { PastDebatesPage } from './pages/PastDebatesPage';
 import { PastDebateDetail } from './pages/PastDebateDetail';
 import { CommunityPage } from './pages/CommunityPage';
+import { CommunityPostDetailPage } from './pages/CommunityPostDetailPage';
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
+import { AdminPage } from './pages/AdminPage';
+import { AdminSignupPage } from './pages/AdminSignupPage';
 import { LoginPage } from './pages/LoginPage';
+import { MyPage } from './pages/MyPage';
 import { NewCommunityPostPage } from './pages/NewCommunityPostPage';
 import { SignupPage } from './pages/SignupPage';
+import { RequireAuth } from './features/auth/RequireAuth';
+import { RequireAdminAuth } from './features/auth/RequireAdminAuth';
 
 export const router = createBrowserRouter([
   {
@@ -35,7 +41,23 @@ export const router = createBrowserRouter([
       },
       {
         path: 'community/new',
-        Component: NewCommunityPostPage,
+        element: (
+          <RequireAuth>
+            <NewCommunityPostPage />
+          </RequireAuth>
+        ),
+      },
+      {
+        path: 'community/:id',
+        Component: CommunityPostDetailPage,
+      },
+      {
+        path: 'mypage',
+        element: (
+          <RequireAuth>
+            <MyPage />
+          </RequireAuth>
+        ),
       },
       {
         path: 'past-debates',
@@ -52,6 +74,18 @@ export const router = createBrowserRouter([
       {
         path: 'forgot-password',
         Component: ForgotPasswordPage,
+      },
+      {
+        path: 'admin',
+        element: (
+          <RequireAdminAuth>
+            <AdminPage />
+          </RequireAdminAuth>
+        ),
+      },
+      {
+        path: 'admin/signup',
+        Component: AdminSignupPage,
       },
       {
         path: 'login',

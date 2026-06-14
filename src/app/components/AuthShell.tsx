@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { Link } from 'react-router';
 import styled from 'styled-components';
-import { MessageCircle, ShieldCheck, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 type AuthShellProps = {
   eyebrow: string;
@@ -17,23 +17,25 @@ type AuthShellProps = {
 };
 
 const Page = styled.main`
-  max-width: 1280px;
-  margin: 0 auto;
+  max-width: 100%;
   padding: ${props => props.theme.spacing[10]} ${props => props.theme.spacing[6]} ${props => props.theme.spacing[16]};
+  display: flex;
+  justify-content: center;
 `;
 
-const Grid = styled.section`
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
-  gap: ${props => props.theme.spacing[6]};
-  align-items: stretch;
+// const Grid = styled.section`
+//   display: grid;
+//   grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+//   gap: ${props => props.theme.spacing[6]};
+//   align-items: stretch;
 
-  @media (max-width: 980px) {
-    grid-template-columns: 1fr;
-  }
-`;
+//   @media (max-width: 980px) {
+//     grid-template-columns: 1fr;
+//   }
+// `;
 
 const Panel = styled.div`
+  width: 50vw;
   position: relative;
   overflow: hidden;
   border-radius: ${props => props.theme.borderRadius['2xl']};
@@ -59,17 +61,17 @@ const AmbientGlow = styled.div`
   pointer-events: none;
 `;
 
-const SidePanel = styled(Panel)`
-  padding: ${props => props.theme.spacing[10]};
-  color: white;
-  background:
-    linear-gradient(145deg, rgba(17, 24, 39, 0.92), rgba(99, 102, 241, 0.9)),
-    linear-gradient(135deg, ${props => props.theme.colors.primary}, ${props => props.theme.colors.accent});
+// const SidePanel = styled(Panel)`
+//   padding: ${props => props.theme.spacing[10]};
+//   color: white;
+//   background:
+//     linear-gradient(145deg, rgba(17, 24, 39, 0.92), rgba(99, 102, 241, 0.9)),
+//     linear-gradient(135deg, ${props => props.theme.colors.primary}, ${props => props.theme.colors.accent});
 
-  @media (max-width: 768px) {
-    padding: ${props => props.theme.spacing[8]};
-  }
-`;
+//   @media (max-width: 768px) {
+//     padding: ${props => props.theme.spacing[8]};
+//   }
+// `;
 
 const Eyebrow = styled.div`
   display: inline-flex;
@@ -115,81 +117,81 @@ const FooterLink = styled(Link)`
   }
 `;
 
-const SideBrand = styled.div`
-  display: inline-flex;
-  align-items: center;
-  gap: ${props => props.theme.spacing[3]};
-  margin-bottom: ${props => props.theme.spacing[8]};
-`;
+// const SideBrand = styled.div`
+//   display: inline-flex;
+//   align-items: center;
+//   gap: ${props => props.theme.spacing[3]};
+//   margin-bottom: ${props => props.theme.spacing[8]};
+// `;
 
-const SideBrandIcon = styled.div`
-  width: 3rem;
-  height: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: ${props => props.theme.borderRadius.xl};
-  background-color: rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(8px);
-`;
+// const SideBrandIcon = styled.div`
+//   width: 3rem;
+//   height: 3rem;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   border-radius: ${props => props.theme.borderRadius.xl};
+//   background-color: rgba(255, 255, 255, 0.16);
+//   backdrop-filter: blur(8px);
+// `;
 
-const SideBrandText = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
+// const SideBrandText = styled.div`
+//   display: flex;
+//   flex-direction: column;
+// `;
 
-const SideBrandTitle = styled.strong`
-  font-family: ${props => props.theme.fonts.heading};
-  font-size: ${props => props.theme.fontSizes.xl};
-`;
+// const SideBrandTitle = styled.strong`
+//   font-family: ${props => props.theme.fonts.heading};
+//   font-size: ${props => props.theme.fontSizes.xl};
+// `;
 
-const SideBrandCaption = styled.span`
-  color: rgba(255, 255, 255, 0.75);
-  font-size: ${props => props.theme.fontSizes.sm};
-`;
+// const SideBrandCaption = styled.span`
+//   color: rgba(255, 255, 255, 0.75);
+//   font-size: ${props => props.theme.fontSizes.sm};
+// `;
 
-const SideTitle = styled.h2`
-  margin-bottom: ${props => props.theme.spacing[3]};
-  color: white;
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
-`;
+// const SideTitle = styled.h2`
+//   margin-bottom: ${props => props.theme.spacing[3]};
+//   color: white;
+//   font-size: clamp(1.75rem, 3vw, 2.5rem);
+// `;
 
-const SideDescription = styled.p`
-  margin-bottom: ${props => props.theme.spacing[8]};
-  color: rgba(255, 255, 255, 0.82);
-  line-height: 1.8;
-`;
+// const SideDescription = styled.p`
+//   margin-bottom: ${props => props.theme.spacing[8]};
+//   color: rgba(255, 255, 255, 0.82);
+//   line-height: 1.8;
+// `;
 
-const HighlightList = styled.div`
-  display: grid;
-  gap: ${props => props.theme.spacing[4]};
-`;
+// const HighlightList = styled.div`
+//   display: grid;
+//   gap: ${props => props.theme.spacing[4]};
+// `;
 
-const Highlight = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: ${props => props.theme.spacing[3]};
-  padding: ${props => props.theme.spacing[4]};
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: ${props => props.theme.borderRadius.xl};
-  background-color: rgba(255, 255, 255, 0.08);
-`;
+// const Highlight = styled.div`
+//   display: flex;
+//   align-items: flex-start;
+//   gap: ${props => props.theme.spacing[3]};
+//   padding: ${props => props.theme.spacing[4]};
+//   border: 1px solid rgba(255, 255, 255, 0.14);
+//   border-radius: ${props => props.theme.borderRadius.xl};
+//   background-color: rgba(255, 255, 255, 0.08);
+// `;
 
-const HighlightIcon = styled.div`
-  width: 2.5rem;
-  height: 2.5rem;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: ${props => props.theme.borderRadius.lg};
-  background-color: rgba(255, 255, 255, 0.12);
-`;
+// const HighlightIcon = styled.div`
+//   width: 2.5rem;
+//   height: 2.5rem;
+//   flex-shrink: 0;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   border-radius: ${props => props.theme.borderRadius.lg};
+//   background-color: rgba(255, 255, 255, 0.12);
+// `;
 
-const HighlightText = styled.p`
-  color: rgba(255, 255, 255, 0.92);
-  line-height: 1.7;
-`;
+// const HighlightText = styled.p`
+//   color: rgba(255, 255, 255, 0.92);
+//   line-height: 1.7;
+// `;
 
 export function AuthShell({
   eyebrow,
@@ -199,13 +201,13 @@ export function AuthShell({
   footerLinkLabel,
   footerLinkTo,
   children,
-  sideTitle,
-  sideDescription,
-  highlights,
+  // sideTitle,
+  // sideDescription,
+  // highlights,
 }: AuthShellProps) {
   return (
     <Page>
-      <Grid>
+      {/* <Grid> */}
         <FormPanel>
           <AmbientGlow />
           <Eyebrow>
@@ -220,15 +222,15 @@ export function AuthShell({
             <FooterLink to={footerLinkTo}>{footerLinkLabel}</FooterLink>
           </FooterRow>
         </FormPanel>
-
+{/* 
         <SidePanel>
           <SideBrand>
             <SideBrandIcon>
               <MessageCircle size={20} />
             </SideBrandIcon>
             <SideBrandText>
-              <SideBrandTitle>IssueTalk</SideBrandTitle>
-              <SideBrandCaption>토론과 커뮤니티를 위한 공간</SideBrandCaption>
+              <SideBrandTitle>이슈톡</SideBrandTitle>
+              <SideBrandCaption>토론과 커뮤니티를 위한 공론장</SideBrandCaption>
             </SideBrandText>
           </SideBrand>
 
@@ -245,8 +247,8 @@ export function AuthShell({
               </Highlight>
             ))}
           </HighlightList>
-        </SidePanel>
-      </Grid>
+        </SidePanel> */}
+      {/* </Grid> */}
     </Page>
   );
 }
