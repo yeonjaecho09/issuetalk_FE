@@ -1,6 +1,6 @@
 import { LogIn, LogOut, MessageCircle, Radio, ShieldCheck, Trophy, UserPlus, UserRound } from 'lucide-react';
 import { useLocation } from 'react-router';
-import { useAuth } from '../../features/auth/AuthContext';
+import { useAuth } from '../../features/auth/useAuth';
 import {
   ActionButton,
   ActionLink,
@@ -69,12 +69,7 @@ export function LayoutHeader() {
                 <ShieldCheck size={16} />
                 관리자
               </ActionLink>
-            ) : (
-              <ActionLink to="/admin/signup">
-                <ShieldCheck size={16} />
-                관리자 가입
-              </ActionLink>
-            )}
+            ) : null}
 
             <ActionLink to="/mypage">
               <UserRound size={16} />
@@ -104,4 +99,3 @@ export function LayoutHeader() {
     </Header>
   );
 }
-

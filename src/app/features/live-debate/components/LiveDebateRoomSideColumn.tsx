@@ -114,11 +114,7 @@ export function LiveDebateRoomSideColumn({
                   <ParticipationHint>양쪽 참여자가 모두 입장해야 토론을 시작할 수 있습니다.</ParticipationHint>
                 )
               ) : room.status === 'live' ? (
-                <ParticipationHint>
-                  {debateProgress?.currentPhase.kind === 'break'
-                    ? '현재는 휴식 시간입니다. 다음 발언 단계가 되면 다시 메시지를 보낼 수 있습니다.'
-                    : '현재 진행 중인 단계에 맞춰 발언을 이어가 주세요.'}
-                </ParticipationHint>
+                <ParticipationHint>자유 토론이 진행 중입니다. 상대 주장에 대한 의견을 바로 이어서 남겨 주세요.</ParticipationHint>
               ) : (
                 <ParticipationHint>종료된 토론입니다.</ParticipationHint>
               )}
@@ -203,8 +199,8 @@ export function LiveDebateRoomSideColumn({
             <InfoValue>{formatStartTime(room.startTime)}</InfoValue>
           </InfoRow>
           <InfoRow>
-            <InfoLabel>토론 순서</InfoLabel>
-            <InfoValue>입론 3분 · 휴식 2분 · 반론 30분 · 휴식 2분 · 최종 발언 5분</InfoValue>
+            <InfoLabel>토론 형식</InfoLabel>
+            <InfoValue>자유 토론 30분</InfoValue>
           </InfoRow>
         </InfoList>
       </SectionCard>
@@ -224,4 +220,3 @@ export function LiveDebateRoomSideColumn({
     </SideColumn>
   );
 }
-

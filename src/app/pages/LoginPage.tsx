@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { AuthShell } from '../components/AuthShell';
-import { useAuth } from '../features/auth/AuthContext';
+import { useAuth } from '../features/auth/useAuth';
 import { LoginForm } from '../features/auth/components/LoginForm';
 
 type LoginLocationState = {
@@ -29,9 +29,18 @@ export function LoginPage() {
     }
 
     try {
-      login({ email, password });
+      const session = login({ email, password });
+      const requestedPath = locationState?.from || '/';
+      const requestedAdminPage = requestedPath.startsWith('/admin');
+
+      if (requestedAdminPage && session.role !== 'admin') {
+        setErrorMessage('관리자 페이지는 관리자 계정으로만 접근할 수 있습니다.');
+        navigate('/', { replace: true });
+        return;
+      }
+
       setErrorMessage(null);
-      navigate(locationState?.from || '/', { replace: true });
+      navigate(requestedPath, { replace: true });
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : '로그인 중 문제가 발생했습니다.');
     }
@@ -45,9 +54,9 @@ export function LoginPage() {
       footerPrompt="계정이 아직 없나요?"
       footerLinkLabel="회원가입"
       footerLinkTo="/signup"
-      sideTitle="오늘의 이슈를 더 가깝게 만나는 시작"
+      sideTitle="오늘의 이슈를 더 가까이 만나는 시작"
       sideDescription="로그인하면 오늘의 토론에 참여하고, 커뮤니티 글과 댓글 활동을 내 흐름 안에서 이어갈 수 있습니다."
-      highlights={['토론 예약과 관심 이력 확인', '내 커뮤니티 활동 관리', '공지와 운영 알림 빠르게 확인']}
+      highlights={['토론 예약과 참여 이력 확인', '내 커뮤니티 활동 관리', '공지와 운영 알림 빠르게 확인']}
     >
       <LoginForm
         email={email}

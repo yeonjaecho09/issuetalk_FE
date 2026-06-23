@@ -11,8 +11,6 @@ import {
   DebateMetaGrid,
   DebateMetaLabel,
   DebateMetaValue,
-  DebateStatus,
-  DebateSummary,
   DebateTopRow,
 } from './PastDebatesPageContent.styles';
 
@@ -52,7 +50,7 @@ export function PastDebatesPageContent({
       <ArchiveHeader>
         <ArchiveEyebrow>지난 토론 아카이브</ArchiveEyebrow>
         <ArchiveTitle>종료된 토론 다시 보기</ArchiveTitle>
-        <p>실시간 토론이 끝나면 주요 발언과 최종 투표 결과가 이곳에 자동으로 기록됩니다. 지난 토론의 흐름을 채팅형 기록으로 다시 살펴볼 수 있습니다.</p>
+        <p>실시간 토론이 끝나면 주요 발언과 최종 투표 결과가 이곳에 자동으로 기록됩니다.</p>
       </ArchiveHeader>
 
       <DebateList>
@@ -64,9 +62,7 @@ export function PastDebatesPageContent({
               <DebateTopRow>
                 <div>
                   <strong>{debate.topic.title}</strong>
-                  <DebateSummary>{debate.topic.content}</DebateSummary>
                 </div>
-                <DebateStatus>토론 종료</DebateStatus>
               </DebateTopRow>
 
               <DebateMetaGrid>
@@ -77,7 +73,7 @@ export function PastDebatesPageContent({
                   </DebateMetaValue>
                 </DebateMetaCard>
                 <DebateMetaCard>
-                  <DebateMetaLabel>최종 승패</DebateMetaLabel>
+                  <DebateMetaLabel>최종 승자</DebateMetaLabel>
                   <DebateMetaValue>{getWinnerSummary(debate)}</DebateMetaValue>
                 </DebateMetaCard>
                 <DebateMetaCard>
@@ -86,9 +82,7 @@ export function PastDebatesPageContent({
                 </DebateMetaCard>
               </DebateMetaGrid>
 
-              <DebateSummary>
-                시작 {formatDate(debate.startTime)} · 발언 {debate.messages.length}개 · 주제 {debate.topic.category}
-              </DebateSummary>
+              <div>시작 {formatDate(debate.startTime)} · 발언 {debate.messages.length}개 · 주제 {debate.topic.category}</div>
             </DebateLinkCard>
           );
         })}
@@ -106,4 +100,3 @@ export function PastDebatesPageContent({
     </PageContainer>
   );
 }
-

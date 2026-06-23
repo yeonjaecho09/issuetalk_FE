@@ -1,14 +1,14 @@
-import { useEffect, useMemo, useState } from 'react';
 import { PageContainer } from '../../../components/ui/primitives';
 import type { CommunityPostPreview } from '../../../data/communityData';
 import type { DebateRoomAdminState } from '../../../data/liveDebateRuntime';
 import type { DebateRoom } from '../../../data/liveDebateRooms';
 import type { ReportItem } from '../../../data/reportData';
+import { useAdminSectionPagination } from '../hooks/useAdminSectionPagination';
 import { AdminDescription, AdminHero, AdminStack, AdminTitle } from './AdminPageContent.styles';
 import { AdminPostsSection } from './AdminPostsSection';
 import { AdminReportsSection } from './AdminReportsSection';
 import { AdminRoomsSection } from './AdminRoomsSection';
-import { getPagedItems, getTotalPages, POSTS_PER_PAGE, REPORTS_PER_PAGE, ROOMS_PER_PAGE } from './adminPageContent.utils';
+import { POSTS_PER_PAGE, REPORTS_PER_PAGE, ROOMS_PER_PAGE } from './adminPageContent.utils';
 
 type AdminPageContentProps = {
   reports: ReportItem[];
@@ -43,46 +43,24 @@ export function AdminPageContent({
   onToggleChatRestriction,
   onForceEndRoom,
 }: AdminPageContentProps) {
-  const [reportPage, setReportPage] = useState(1);
-  const [postPage, setPostPage] = useState(1);
-  const [roomPage, setRoomPage] = useState(1);
-
-  const reportTotalPages = getTotalPages(reports.length, REPORTS_PER_PAGE);
-  const postTotalPages = getTotalPages(posts.length, POSTS_PER_PAGE);
-  const roomTotalPages = getTotalPages(rooms.length, ROOMS_PER_PAGE);
-
-  useEffect(() => {
-    setReportPage(current => Math.min(current, reportTotalPages));
-  }, [reportTotalPages]);
-
-  useEffect(() => {
-    setPostPage(current => Math.min(current, postTotalPages));
-  }, [postTotalPages]);
-
-  useEffect(() => {
-    setRoomPage(current => Math.min(current, roomTotalPages));
-  }, [roomTotalPages]);
-
-  const visibleReports = useMemo(() => getPagedItems(reports, reportPage, REPORTS_PER_PAGE), [reports, reportPage]);
-  const visiblePosts = useMemo(() => getPagedItems(posts, postPage, POSTS_PER_PAGE), [posts, postPage]);
-  const visibleRooms = useMemo(() => getPagedItems(rooms, roomPage, ROOMS_PER_PAGE), [rooms, roomPage]);
+  const reportsPagination = useAdminSectionPagination(reports, REPORTS_PER_PAGE);
+  const postsPagination = useAdminSectionPagination(posts, POSTS_PER_PAGE);
+  const roomsPagination = useAdminSectionPagination(rooms, ROOMS_PER_PAGE);
 
   return (
     <PageContainer>
       <AdminHero>
         <div>관리자 콘솔</div>
         <AdminTitle>관리자 운영 페이지</AdminTitle>
-        <AdminDescription>
-          신고 확인과 처리, 게시물 운영, 토론방 제어를 한 화면에서 관리하는 관리자 전용 페이지입니다.
-        </AdminDescription>
+        <AdminDescription>신고 확인과 처리, 게시물 운영, 토론방 제어를 한 화면에서 관리하는 관리자 전용 페이지입니다.</AdminDescription>
       </AdminHero>
 
       <AdminStack>
         <AdminReportsSection
-          reports={visibleReports}
-          currentPage={reportPage}
+          reports={reportsPagination.visibleItems}
+          currentPage={reportsPagination.currentPage}
           totalItems={reports.length}
-          onChangePage={setReportPage}
+          onChangePage={reportsPagination.handlePageChange}
           onStartReview={onStartReview}
           onResolveReport={onResolveReport}
           onDismissReport={onDismissReport}
@@ -90,20 +68,20 @@ export function AdminPageContent({
         />
 
         <AdminPostsSection
-          posts={visiblePosts}
-          currentPage={postPage}
+          posts={postsPagination.visibleItems}
+          currentPage={postsPagination.currentPage}
           totalItems={posts.length}
-          onChangePage={setPostPage}
+          onChangePage={postsPagination.handlePageChange}
           onViewPost={onViewPost}
           onTogglePostHidden={onTogglePostHidden}
         />
 
         <AdminRoomsSection
-          rooms={visibleRooms}
+          rooms={roomsPagination.visibleItems}
           roomAdminStates={roomAdminStates}
-          currentPage={roomPage}
+          currentPage={roomsPagination.currentPage}
           totalItems={rooms.length}
-          onChangePage={setRoomPage}
+          onChangePage={roomsPagination.handlePageChange}
           onViewRoom={onViewRoom}
           onTogglePauseRoom={onTogglePauseRoom}
           onToggleChatRestriction={onToggleChatRestriction}
@@ -113,3 +91,4 @@ export function AdminPageContent({
     </PageContainer>
   );
 }
+

@@ -12,7 +12,6 @@ import {
   PostInner,
   PostMetaRow,
   PostTitle,
-  ReadLink,
   TitleLink,
 } from './CommunityPostCard.styles';
 
@@ -22,7 +21,7 @@ type CommunityPostCardProps = {
 
 export function CommunityPostCard({ post }: CommunityPostCardProps) {
   return (
-    <PostCard>
+    <PostCard to={`/community/${post.id}`}>
       {post.isPinned && (
         <PinBanner>
           <Pin size={12} />
@@ -42,7 +41,7 @@ export function CommunityPostCard({ post }: CommunityPostCardProps) {
           </AuthorText>
         </PostMetaRow>
 
-        <TitleLink to={`/community/${post.id}`}>
+        <TitleLink>
           <PostTitle>{post.title}</PostTitle>
         </TitleLink>
         <Excerpt>{post.excerpt}</Excerpt>
@@ -63,7 +62,6 @@ export function CommunityPostCard({ post }: CommunityPostCardProps) {
             </Metric>
           </Metrics>
 
-          <ReadLink to={`/community/${post.id}`}>상세 보기</ReadLink>
         </ContentFooter>
       </PostInner>
     </PostCard>

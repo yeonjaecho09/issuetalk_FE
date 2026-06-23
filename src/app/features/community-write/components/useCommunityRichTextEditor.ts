@@ -24,6 +24,55 @@ function normalizeEditorHtml(html: string) {
   return html;
 }
 
+function isEditorEffectivelyEmpty(editor: HTMLDivElement) {
+  const text = editor.textContent?.replace(/\u200B/g, '').trim() ?? '';
+  const normalizedHtml = normalizeEditorHtml(editor.innerHTML)
+    .replace(/&nbsp;/g, '')
+    .replace(/\s+/g, '')
+    .trim();
+
+  return text.length === 0 && (normalizedHtml === '' || normalizedHtml === '<div><br></div>' || normalizedHtml === '<br>');
+}
+
+function placeCaretAtStart(editor: HTMLDivElement) {
+  if (typeof window === 'undefined') return;
+
+  const selection = window.getSelection();
+  if (!selection) return;
+
+  const range = document.createRange();
+  range.selectNodeContents(editor);
+  range.collapse(true);
+  selection.removeAllRanges();
+  selection.addRange(range);
+}
+
+function resetTypingFormat(editor: HTMLDivElement) {
+  editor.innerHTML = '';
+  placeCaretAtStart(editor);
+  document.execCommand('styleWithCSS', false, 'false');
+
+  if (document.queryCommandState('bold')) {
+    document.execCommand('bold', false);
+  }
+
+  if (document.queryCommandState('italic')) {
+    document.execCommand('italic', false);
+  }
+
+  if (document.queryCommandState('strikeThrough')) {
+    document.execCommand('strikeThrough', false);
+  }
+
+  if (document.queryCommandState('insertUnorderedList')) {
+    document.execCommand('insertUnorderedList', false);
+  }
+
+  document.execCommand('removeFormat', false);
+  document.execCommand('formatBlock', false, 'div');
+  placeCaretAtStart(editor);
+}
+
 export function useCommunityRichTextEditor(body: string, onChangeBody: (value: string) => void) {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const imageInputRef = useRef<HTMLInputElement | null>(null);
@@ -36,49 +85,39 @@ export function useCommunityRichTextEditor(body: string, onChangeBody: (value: s
     editor.innerHTML = body;
   }, [body]);
 
-  const refreshToolbarState = () => {
-    const editor = editorRef.current;
-    const selection = typeof window !== 'undefined' ? window.getSelection() : null;
-
-    if (!editor || !selection || selection.rangeCount === 0) {
-      setToolbarState(EMPTY_TOOLBAR_STATE);
-      return;
-    }
-
-    const anchorNode = selection.anchorNode;
-    if (!anchorNode || !editor.contains(anchorNode)) {
-      setToolbarState(EMPTY_TOOLBAR_STATE);
-      return;
-    }
-
-    const parentElement =
-      anchorNode.nodeType === Node.ELEMENT_NODE ? (anchorNode as Element) : anchorNode.parentElement;
-
-    setToolbarState({
-      bold: document.queryCommandState('bold'),
-      italic: document.queryCommandState('italic'),
-      strikeThrough: document.queryCommandState('strikeThrough'),
-      insertUnorderedList: document.queryCommandState('insertUnorderedList'),
-      blockquote: Boolean(parentElement?.closest('blockquote')),
-    });
-  };
-
-  useEffect(() => {
-    const handleSelectionChange = () => {
-      refreshToolbarState();
-    };
-
-    document.addEventListener('selectionchange', handleSelectionChange);
-    return () => {
-      document.removeEventListener('selectionchange', handleSelectionChange);
-    };
-  });
-
   const syncBodyFromEditor = () => {
     const editor = editorRef.current;
     if (!editor) return;
     onChangeBody(normalizeEditorHtml(editor.innerHTML));
-    refreshToolbarState();
+    if (isEditorEffectivelyEmpty(editor)) {
+      setToolbarState(EMPTY_TOOLBAR_STATE);
+    }
+  };
+
+  const updateToolbarStateForCommand = (command: string) => {
+    setToolbarState(current => {
+      if (command === 'bold') {
+        return { ...current, bold: !current.bold };
+      }
+
+      if (command === 'italic') {
+        return { ...current, italic: !current.italic };
+      }
+
+      if (command === 'strikeThrough') {
+        return { ...current, strikeThrough: !current.strikeThrough };
+      }
+
+      if (command === 'insertUnorderedList') {
+        return { ...current, insertUnorderedList: !current.insertUnorderedList };
+      }
+
+      if (command === 'formatBlock') {
+        return { ...current, blockquote: !current.blockquote };
+      }
+
+      return current;
+    });
   };
 
   const runCommand = (command: string, value?: string) => {
@@ -88,7 +127,7 @@ export function useCommunityRichTextEditor(body: string, onChangeBody: (value: s
     editor.focus();
     document.execCommand(command, false, value);
     syncBodyFromEditor();
-    refreshToolbarState();
+    updateToolbarStateForCommand(command);
   };
 
   const handleCreateLink = () => {
@@ -127,6 +166,23 @@ export function useCommunityRichTextEditor(body: string, onChangeBody: (value: s
     }
   };
 
+  const handleEditorFocus = () => {
+    const editor = editorRef.current;
+    if (!editor || !isEditorEffectivelyEmpty(editor)) {
+      return;
+    }
+
+    resetTypingFormat(editor);
+    setToolbarState(EMPTY_TOOLBAR_STATE);
+  };
+
+  const handleEditorBeforeInput = () => {
+    const editor = editorRef.current;
+    if (!editor || !isEditorEffectivelyEmpty(editor)) return;
+    resetTypingFormat(editor);
+    setToolbarState(EMPTY_TOOLBAR_STATE);
+  };
+
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -148,6 +204,8 @@ export function useCommunityRichTextEditor(body: string, onChangeBody: (value: s
     runCommand,
     handleCreateLink,
     handleEditorKeyDown,
+    handleEditorFocus,
+    handleEditorBeforeInput,
     handleImageUpload,
     syncBodyFromEditor,
   };

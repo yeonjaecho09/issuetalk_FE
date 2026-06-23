@@ -2,7 +2,6 @@ import { PageContainer } from '../../../components/ui/primitives';
 import type { CommunityCategory, CommunityPostPreview } from '../../../data/communityData';
 import { CommunityFeedSection } from './CommunityFeedSection';
 import { CommunityFilterBar } from './CommunityFilterBar';
-import { CommunityHeader, CommunityTitle } from './CommunityPageContent.styles';
 
 type CommunityPageContentProps = {
   categories: CommunityCategory[];
@@ -25,16 +24,11 @@ export function CommunityPageContent({
   currentPage,
   totalPages,
   itemsPerPage,
-  allPosts,
   onSelectCategory,
   onPageChange,
 }: CommunityPageContentProps) {
   return (
     <PageContainer>
-      <CommunityHeader>
-        <CommunityTitle>커뮤니티</CommunityTitle>
-        <p>시민들의 자유로운 소통과 정보 공유의 공간 · 총 {allPosts.length}개의 게시글</p>
-      </CommunityHeader>
       <CommunityFilterBar categories={categories} selectedCategory={selectedCategory} onSelect={onSelectCategory} />
       <CommunityFeedSection
         selectedCategory={selectedCategory}

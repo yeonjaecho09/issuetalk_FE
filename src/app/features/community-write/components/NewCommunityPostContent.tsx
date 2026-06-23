@@ -53,6 +53,8 @@ export function NewCommunityPostContent({
           runCommand={editor.runCommand}
           handleCreateLink={editor.handleCreateLink}
           handleEditorKeyDown={editor.handleEditorKeyDown}
+          handleEditorFocus={editor.handleEditorFocus}
+          handleEditorBeforeInput={editor.handleEditorBeforeInput}
           handleImageUpload={editor.handleImageUpload}
           syncBodyFromEditor={editor.syncBodyFromEditor}
         />

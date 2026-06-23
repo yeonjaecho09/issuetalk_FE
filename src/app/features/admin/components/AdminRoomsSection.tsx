@@ -38,9 +38,9 @@ export function AdminRoomsSection({
             <ItemCard key={room.id}>
               <div>{room.title}</div>
               <ItemMeta>
-                상태 {room.status} 시청자 {room.viewers}
-                {adminState?.isPaused ? ' 일시 정지됨' : ''}
-                {adminState?.isChatRestricted ? ' 채팅 제한 중' : ''}
+                상태 {room.status} · 관전자 {room.viewers}
+                {adminState?.isPaused ? ' · 일시 정지됨' : ''}
+                {adminState?.isChatRestricted ? ' · 채팅 제한 중' : ''}
               </ItemMeta>
               <ItemActions>
                 <AdminActionButton type="button" onClick={() => onViewRoom(room.id)}>
@@ -70,3 +70,4 @@ export function AdminRoomsSection({
     </AdminCard>
   );
 }
+

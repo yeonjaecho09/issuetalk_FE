@@ -28,7 +28,7 @@ export function AdminPostsSection({
           <ItemCard key={post.id}>
             <div>{post.title}</div>
             <ItemMeta>
-              작성자 {post.author} 좋아요 {post.likes} {post.isHidden ? '숨김 처리됨' : '노출 중'}
+              작성자 {post.author} · 좋아요 {post.likes} · {post.isHidden ? '숨김 처리됨' : '노출 중'}
             </ItemMeta>
             <ItemActions>
               <AdminActionButton type="button" onClick={() => onViewPost(post.id)}>
@@ -51,3 +51,4 @@ export function AdminPostsSection({
     </AdminCard>
   );
 }
+

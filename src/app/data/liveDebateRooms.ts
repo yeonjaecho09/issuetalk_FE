@@ -1,3 +1,5 @@
+import { notifyLiveDebateStorageUpdated } from './liveDebateSubscriptions';
+
 export type DebateRoomStatus = 'live' | 'scheduled' | 'ended';
 
 export type DebateRoom = {
@@ -42,8 +44,8 @@ export type DebateRoom = {
 
 export const TODAY_DEBATE_TOPIC = '정책 토론에서 감정 표현은 어디까지 허용되어야 할까?';
 
-const STORAGE_KEY = 'issuetalk.liveDebate.rooms';
-const OPEN_SLOT_NAME = '참가자 모집 중';
+export const STORAGE_KEY = 'issuetalk.liveDebate.rooms';
+const OPEN_SLOT_NAME = '참여자 모집 중';
 
 function isBrowser() {
   return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
@@ -80,8 +82,10 @@ function readStoredRooms() {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return [];
+
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
+
     return parsed.filter(isDebateRoom);
   } catch {
     return [];
@@ -91,6 +95,7 @@ function readStoredRooms() {
 function writeStoredRooms(rooms: DebateRoom[]) {
   if (!isBrowser()) return;
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(rooms));
+  notifyLiveDebateStorageUpdated(STORAGE_KEY);
 }
 
 export function getLiveDebateRooms() {
@@ -106,8 +111,8 @@ export function createLiveDebateRoom(hostName: string) {
   const room: DebateRoom = {
     id: roomId,
     slug: `today-topic-user-room-${roomNumber}`,
-    title: `오늘의 토론방 ${roomNumber}`,
-    summary: `오늘의 토론 주제 "${TODAY_DEBATE_TOPIC}"로 진행되는 사용자 생성 토론방입니다. 참가자 두 명이 입장하면 바로 토론을 시작할 수 있습니다.`,
+    title: `${TODAY_DEBATE_TOPIC} - ${roomNumber}`,
+    summary: `오늘의 주제 "${TODAY_DEBATE_TOPIC}"로 진행되는 사용자 생성 토론방입니다. 양측 참여자가 입장하면 바로 토론을 시작할 수 있습니다.`,
     category: '오늘의 토론',
     host: `${hostName} 님`,
     roundLabel: `사용자 생성 토론방 ${roomNumber}`,
@@ -124,12 +129,12 @@ export function createLiveDebateRoom(hostName: string) {
     debater1: {
       id: `${roomId}-debater1`,
       name: OPEN_SLOT_NAME,
-      stance: '찬성측 참가 가능',
+      stance: '찬성 측 참여 가능',
     },
     debater2: {
       id: `${roomId}-debater2`,
       name: OPEN_SLOT_NAME,
-      stance: '반대측 참가 가능',
+      stance: '반대 측 참여 가능',
     },
     votes: {
       debater1: 0,

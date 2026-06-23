@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { AuthShell } from '../components/AuthShell';
-import { useAuth } from '../features/auth/AuthContext';
+import { useAuth } from '../features/auth/useAuth';
+import { NoticeCard } from '../features/auth/components/AuthForms.styles';
 import { AdminSignupForm } from '../features/auth/components/AdminSignupForm';
 
 export function AdminSignupPage() {
@@ -53,6 +54,11 @@ export function AdminSignupPage() {
       sideDescription="신고 처리, 게시물 운영, 토론방 제어를 담당하는 관리자 계정 전용 가입 화면입니다."
       highlights={['관리자 접근 코드 확인', '인증 토큰 기반 가입 검증', '운영 콘솔 접근 전용 계정']}
     >
+      <NoticeCard>
+        <strong>관리자 가입 정보</strong>
+        <p>접근 코드: <code>ISSUETALK-ADMIN</code></p>
+        <p>인증 토큰: <code>ADMIN-ACCESS-2026</code></p>
+      </NoticeCard>
       <AdminSignupForm
         name={name}
         nickname={nickname}

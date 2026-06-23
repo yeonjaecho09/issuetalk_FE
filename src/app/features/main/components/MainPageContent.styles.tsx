@@ -18,7 +18,7 @@ export const TopicEyebrow = styled.div`
 `;
 
 export const TopicTitle = styled(HeroTitle)`
-  max-width: 36rem;
+  max-width: 100rem;
 `;
 
 export const TopicDescription = styled(HeroDescription)``;

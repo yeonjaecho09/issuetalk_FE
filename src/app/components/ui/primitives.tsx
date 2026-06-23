@@ -31,7 +31,7 @@ export const HeroEyebrow = styled.div`
 
 export const HeroTitle = styled.h1`
   margin-bottom: ${props => props.theme.spacing[3]};
-  font-size: clamp(2.25rem, 5vw, 4rem);
+  font-size: clamp(2rem, 4vw, 3rem);
   line-height: 1.08;
 `;
 

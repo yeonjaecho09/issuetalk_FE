@@ -15,7 +15,6 @@ import {
   PostsList,
   PostsSection,
   PostsTitle,
-  TopicDescription,
   TopicEyebrow,
   TopicSection,
   TopicTitle,
@@ -24,17 +23,15 @@ import {
 type MainPageContentProps = {
   liveDebate: DebateRoom | null;
   topicTitle: string;
-  topicDescription: string;
   hottestCommunityPosts: CommunityPostPreview[];
 };
 
-export function MainPageContent({ liveDebate, topicTitle, topicDescription, hottestCommunityPosts }: MainPageContentProps) {
+export function MainPageContent({ liveDebate, topicTitle, hottestCommunityPosts }: MainPageContentProps) {
   return (
     <PageContainer>
       <TopicSection>
         <TopicEyebrow>오늘의 토론 주제</TopicEyebrow>
         <TopicTitle>{topicTitle}</TopicTitle>
-        <TopicDescription>{topicDescription}</TopicDescription>
       </TopicSection>
 
       {liveDebate ? (

@@ -1,6 +1,7 @@
 import type { FormEvent } from 'react';
 import type { DebateParticipantSide, DebateProgress } from '../../../data/liveDebateRuntime';
 import type { DebateRoom } from '../../../data/liveDebateRooms';
+import { useAutoResizeTextarea } from '../../../hooks/useAutoResizeTextarea';
 import {
   CharacterCount,
   ComposerButton,
@@ -16,10 +17,6 @@ import {
   MessageSpeakerMeta,
   MessageText,
   MessageTimestamp,
-  MetricCard,
-  MetricLabel,
-  MetricValue,
-  MetricsGrid,
   ParticipationHint,
   QuestionActionRow,
   QuestionCard,
@@ -29,22 +26,21 @@ import {
   QuestionSubmitButton,
   QuestionText,
   QuestionTextarea,
-  SectionCaption,
   SectionCard,
   SectionTitleRow,
-  TimelineItem,
-  TimelineList,
-  TimelineText,
-  TimelineTitle,
+  TimeCardHeader,
+  TimeCardMeta,
+  TimeMetricCard,
+  TimeMetricLabel,
+  TimeMetricRow,
+  TimeMetricValue,
 } from './LiveDebateRoomPageContent.styles';
 import {
   type AudienceQuestion,
   formatDuration,
   formatMessageTime,
   getComposerPlaceholder,
-  getSessionStatusText,
   getSideLabel,
-  getTimelineDescription,
 } from './liveDebateRoomContent.utils';
 
 type LiveDebateRoomMainColumnProps = {
@@ -53,8 +49,6 @@ type LiveDebateRoomMainColumnProps = {
   joinedSide: DebateParticipantSide | null;
   currentNickname: string | null;
   debateProgress: DebateProgress | null;
-  timelinePhases: DebateProgress['phases'];
-  currentStepIndex: number;
   latestMessage: DebateRoom['messages'][number] | null;
   canCompose: boolean;
   messageInput: string;
@@ -72,8 +66,6 @@ export function LiveDebateRoomMainColumn({
   joinedSide,
   currentNickname,
   debateProgress,
-  timelinePhases,
-  currentStepIndex,
   latestMessage,
   canCompose,
   messageInput,
@@ -84,40 +76,26 @@ export function LiveDebateRoomMainColumn({
   onSubmitMessage,
   onSubmitQuestion,
 }: LiveDebateRoomMainColumnProps) {
+  const messageTextareaRef = useAutoResizeTextarea<HTMLTextAreaElement>(messageInput);
+  const questionTextareaRef = useAutoResizeTextarea<HTMLTextAreaElement>(questionInput);
+
   return (
     <MainColumn>
       <SectionCard>
-        <SectionTitleRow>
-          <strong>토론 진행 현황</strong>
-          <span>{getSessionStatusText(room, debateProgress)}</span>
-        </SectionTitleRow>
-        <SectionCaption>
-          입론 3분, 휴식 2분, 반론 및 재반론 30분, 휴식 2분, 최종 발언 5분 순서로 진행됩니다.
-        </SectionCaption>
-        <MetricsGrid>
-          <MetricCard>
-            <MetricLabel>현재 단계</MetricLabel>
-            <MetricValue>{debateProgress?.currentPhase.label ?? '시작 전'}</MetricValue>
-          </MetricCard>
-          <MetricCard>
-            <MetricLabel>현재 단계 남은 시간</MetricLabel>
-            <MetricValue>{debateProgress ? formatDuration(debateProgress.remainingPhaseSeconds) : '3:00'}</MetricValue>
-          </MetricCard>
-          <MetricCard>
-            <MetricLabel>전체 남은 시간</MetricLabel>
-            <MetricValue>{debateProgress ? formatDuration(debateProgress.remainingTotalSeconds) : '42:00'}</MetricValue>
-          </MetricCard>
-        </MetricsGrid>
-        <TimelineList>
-          {timelinePhases.map((step, index) => (
-            <TimelineItem key={step.key} $active={index === currentStepIndex && room.status !== 'ended'}>
-              <TimelineTitle>
-                {step.label} · {Math.floor(step.durationSeconds / 60)}분
-              </TimelineTitle>
-              <TimelineText>{getTimelineDescription(debateProgress, index)}</TimelineText>
-            </TimelineItem>
-          ))}
-        </TimelineList>
+        <TimeCardHeader>
+          <strong>토론 시간</strong>
+          <TimeCardMeta>자유 토론</TimeCardMeta>
+        </TimeCardHeader>
+        <TimeMetricRow>
+          <TimeMetricCard>
+            <TimeMetricLabel>전체 시간</TimeMetricLabel>
+            <TimeMetricValue>30:00</TimeMetricValue>
+          </TimeMetricCard>
+          <TimeMetricCard>
+            <TimeMetricLabel>남은 시간</TimeMetricLabel>
+            <TimeMetricValue>{debateProgress ? formatDuration(debateProgress.remainingTotalSeconds) : '30:00'}</TimeMetricValue>
+          </TimeMetricCard>
+        </TimeMetricRow>
       </SectionCard>
 
       <SectionCard>
@@ -170,6 +148,7 @@ export function LiveDebateRoomMainColumn({
           </SectionTitleRow>
           <ComposerForm onSubmit={onSubmitMessage}>
             <ComposerTextarea
+              ref={messageTextareaRef}
               maxLength={240}
               placeholder={getComposerPlaceholder(room, debateProgress)}
               value={messageInput}
@@ -188,14 +167,15 @@ export function LiveDebateRoomMainColumn({
 
       <SectionCard>
         <SectionTitleRow>
-          <strong>관전자 댓글</strong>
+          <strong>관전자 의견</strong>
           <span>토론을 보며 의견을 남길 수 있습니다</span>
         </SectionTitleRow>
         {isParticipant ? (
-          <ParticipationHint>토론 참여자는 관전자 댓글을 직접 작성할 수 없고, 아래 목록만 확인할 수 있습니다.</ParticipationHint>
+          <ParticipationHint>토론 참여자는 관전자 의견을 직접 작성할 수 없고, 아래 목록만 확인할 수 있습니다.</ParticipationHint>
         ) : (
           <QuestionForm onSubmit={onSubmitQuestion}>
             <QuestionTextarea
+              ref={questionTextareaRef}
               maxLength={180}
               placeholder="토론을 보며 남기고 싶은 의견이나 질문을 적어 주세요."
               value={questionInput}
@@ -204,7 +184,7 @@ export function LiveDebateRoomMainColumn({
             <QuestionActionRow>
               <CharacterCount>{questionInput.length}/180</CharacterCount>
               <QuestionSubmitButton type="submit" disabled={!questionInput.trim()}>
-                댓글 등록
+                의견 등록
               </QuestionSubmitButton>
             </QuestionActionRow>
           </QuestionForm>
@@ -223,4 +203,3 @@ export function LiveDebateRoomMainColumn({
     </MainColumn>
   );
 }
-

@@ -22,7 +22,6 @@ import {
   SummaryMetaGrid,
   SummaryMetaLabel,
   SummaryMetaValue,
-  SummaryText,
   SummaryTitle,
   SummaryTopRow,
   VoteBar,
@@ -82,7 +81,6 @@ export function PastDebateDetailContent({ debate }: PastDebateDetailContentProps
           <SummaryBadge>토론 종료</SummaryBadge>
         </SummaryTopRow>
         <SummaryTitle>{debate.topic.title}</SummaryTitle>
-        <SummaryText>{debate.topic.content}</SummaryText>
         <SummaryMetaGrid>
           <SummaryMetaCard>
             <SummaryMetaLabel>대진</SummaryMetaLabel>

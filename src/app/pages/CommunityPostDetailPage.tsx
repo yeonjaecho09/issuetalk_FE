@@ -1,15 +1,16 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 import {
   addCommunityComment,
   getCommunityComments,
   getCommunityPostById,
   hasLikedCommunityPost,
+  incrementCommunityPostView,
   toggleCommunityPostLike,
 } from '../data/communityData';
 import { getViewerActorId } from '../data/viewerIdentity';
 import { createAdminReport, hasActiveReport } from '../data/adminReportData';
-import { useAuth } from '../features/auth/AuthContext';
+import { useAuth } from '../features/auth/useAuth';
 import { CommunityPostDetailContent } from '../features/community-detail/components/CommunityPostDetailContent';
 
 export function CommunityPostDetailPage() {
@@ -25,6 +26,15 @@ export function CommunityPostDetailPage() {
   const isLiked = useMemo(() => hasLikedCommunityPost(id, actorId), [id, actorId, refreshKey]);
 
   const bumpRefresh = () => setRefreshKey(current => current + 1);
+
+  useEffect(() => {
+    if (!id) return;
+
+    const didIncrement = incrementCommunityPostView(id, actorId);
+    if (didIncrement) {
+      bumpRefresh();
+    }
+  }, [id, actorId]);
 
   const submitComment = (event: React.FormEvent) => {
     event.preventDefault();
@@ -73,4 +83,3 @@ export function CommunityPostDetailPage() {
     />
   );
 }
-

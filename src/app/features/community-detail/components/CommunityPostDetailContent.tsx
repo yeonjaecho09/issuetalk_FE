@@ -1,5 +1,6 @@
 import { PageContainer, SurfaceCard } from '../../../components/ui/primitives';
 import type { CommunityComment, CommunityPostPreview } from '../../../data/communityData';
+import { useAutoResizeTextarea } from '../../../hooks/useAutoResizeTextarea';
 import { CommunityRichText } from '../../community/components/CommunityRichText';
 import {
   ActionButton,
@@ -42,6 +43,8 @@ export function CommunityPostDetailContent({
   onReport,
   onToggleLike,
 }: CommunityPostDetailContentProps) {
+  const commentTextareaRef = useAutoResizeTextarea<HTMLTextAreaElement>(commentBody);
+
   if (!post) {
     return (
       <PageContainer>
@@ -74,10 +77,10 @@ export function CommunityPostDetailContent({
           <strong>게시글 액션</strong>
           <ActionRow>
             <ActionButton type="button" onClick={onToggleLike}>
-              {isLiked ? '♥ 좋아요 취소' : '♥ 좋아요'}
+              {isLiked ? '좋아요 취소' : '좋아요'}
             </ActionButton>
             <ActionButton type="button" onClick={onReport} disabled={isReported}>
-              {isReported ? '⚑ 신고 접수 완료' : '⚑ 게시글 신고'}
+              {isReported ? '신고 접수 완료' : '게시글 신고'}
             </ActionButton>
           </ActionRow>
         </SurfaceCard>
@@ -85,7 +88,12 @@ export function CommunityPostDetailContent({
         <SurfaceCard>
           <strong>댓글 작성</strong>
           <FormGrid onSubmit={onSubmitComment}>
-            <CommentTextarea value={commentBody} onChange={event => onChangeComment(event.target.value)} placeholder="댓글을 입력해 주세요." />
+            <CommentTextarea
+              ref={commentTextareaRef}
+              value={commentBody}
+              onChange={event => onChangeComment(event.target.value)}
+              placeholder="댓글을 입력해 주세요."
+            />
             <div>
               <SubmitButton type="submit">댓글 등록</SubmitButton>
             </div>
@@ -108,4 +116,3 @@ export function CommunityPostDetailContent({
     </PageContainer>
   );
 }
-

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { communityCategories, createCommunityPost } from '../data/communityData';
-import { useAuth } from '../features/auth/AuthContext';
+import { useAuth } from '../features/auth/useAuth';
 import { NewCommunityPostContent } from '../features/community-write/components/NewCommunityPostContent';
 
 export function NewCommunityPostPage() {

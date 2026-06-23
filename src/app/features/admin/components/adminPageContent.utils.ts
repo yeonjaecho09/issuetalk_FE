@@ -40,3 +40,4 @@ export function getPagedItems<T>(items: T[], page: number, pageSize: number) {
   const startIndex = (page - 1) * pageSize;
   return items.slice(startIndex, startIndex + pageSize);
 }
+

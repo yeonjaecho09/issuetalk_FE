@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { AuthShell } from '../components/AuthShell';
-import { useAuth } from '../features/auth/AuthContext';
+import { useAuth } from '../features/auth/useAuth';
 import { SignupForm } from '../features/auth/components/SignupForm';
 
 export function SignupPage() {
@@ -69,11 +69,14 @@ export function SignupPage() {
     <AuthShell
       eyebrow="회원가입"
       title="이슈톡 회원가입"
-      description="이메일 인증을 마치고 커뮤니티와 오늘의 토론에 참여할 계정을 만들어보세요."
+      description="이메일 인증을 마치고 커뮤니티와 오늘의 토론에 참여할 계정을 만들어 보세요."
       footerPrompt="이미 계정이 있나요?"
       footerLinkLabel="로그인"
       footerLinkTo="/login"
-      sideTitle="참여를 이어가는 개인 계정"
+      secondaryFooterPrompt="운영진 계정을 만들어야 하나요?"
+      secondaryFooterLinkLabel="관리자 회원가입"
+      secondaryFooterLinkTo="/admin/signup"
+      sideTitle="참여를 이어갈 개인 계정"
       sideDescription="회원가입을 마치면 토론 예약, 글 작성, 프로필 관리까지 하나의 계정으로 자연스럽게 이어집니다."
       highlights={['이메일 인증 상태 확인', '커뮤니티 활동과 계정 설정 연동', '토론 참여 이력 관리']}
     >

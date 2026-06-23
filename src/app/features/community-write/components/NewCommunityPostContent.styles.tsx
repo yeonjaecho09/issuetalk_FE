@@ -122,6 +122,15 @@ export const ToolbarButton = styled(SecondaryButton)<{ $active?: boolean }>`
   color: ${props => (props.$active ? props.theme.colors.primary : props.theme.colors.foreground)};
   background: ${props => (props.$active ? 'rgba(99, 102, 241, 0.12)' : props.theme.colors.secondary)};
   box-shadow: ${props => (props.$active ? props.theme.shadows.sm : 'none')};
+
+  &:focus-visible {
+    border-color: ${props => props.theme.colors.primary};
+    background: rgba(99, 102, 241, 0.12);
+    box-shadow:
+      ${props => props.theme.shadows.sm},
+      0 0 0 3px rgba(99, 102, 241, 0.16);
+    outline: none;
+  }
 `;
 
 export const HiddenFileInput = styled.input`

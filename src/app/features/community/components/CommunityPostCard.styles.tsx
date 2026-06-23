@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 import styled from 'styled-components';
 
-export const PostCard = styled.article`
+export const PostCard = styled(Link)`
   overflow: hidden;
   border-radius: ${props => props.theme.borderRadius['2xl']};
   border: 1px solid ${props => props.theme.colors.border};
@@ -60,7 +60,7 @@ export const AuthorText = styled.div`
   font-size: ${props => props.theme.fontSizes.sm};
 `;
 
-export const TitleLink = styled(Link)`
+export const TitleLink = styled.h1`
   display: block;
   margin-bottom: ${props => props.theme.spacing[3]};
 

@@ -85,7 +85,7 @@ export function LiveDebateRoomPageContent({
     );
   }
 
-  const { timelinePhases, currentStepIndex, liveVotes, latestMessage, isParticipant, canSwitchSide, canCompose } =
+  const { liveVotes, latestMessage, isParticipant, canSwitchSide, canCompose } =
     getLiveDebateRoomDerivedState({
       room,
       debateProgress,
@@ -149,8 +149,6 @@ export function LiveDebateRoomPageContent({
           joinedSide={joinedSide}
           currentNickname={currentNickname}
           debateProgress={debateProgress}
-          timelinePhases={timelinePhases}
-          currentStepIndex={currentStepIndex}
           latestMessage={latestMessage}
           canCompose={canCompose}
           messageInput={messageInput}
@@ -188,4 +186,3 @@ export function LiveDebateRoomPageContent({
     </PageContainer>
   );
 }
-

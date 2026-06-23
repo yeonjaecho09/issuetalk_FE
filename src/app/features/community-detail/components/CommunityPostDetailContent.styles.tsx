@@ -97,10 +97,12 @@ export const FormGrid = styled.form`
 
 export const CommentTextarea = styled.textarea`
   min-height: 7rem;
+  max-height: 18rem;
   padding: ${props => props.theme.spacing[4]};
   border: 1px solid ${props => props.theme.colors.border};
   border-radius: ${props => props.theme.borderRadius.lg};
-  resize: vertical;
+  resize: none;
+  overflow: hidden;
 `;
 
 export const CommentList = styled.div`

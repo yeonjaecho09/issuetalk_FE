@@ -18,7 +18,6 @@ export function MainPage() {
     <MainPageContent
       liveDebate={liveDebate}
       topicTitle={TODAY_DEBATE_TOPIC}
-      topicDescription="오늘의 핵심 이슈를 확인하고, 실시간 토론과 인기 커뮤니티 글로 바로 이어질 수 있습니다."
       hottestCommunityPosts={hottestCommunityPosts}
     />
   );

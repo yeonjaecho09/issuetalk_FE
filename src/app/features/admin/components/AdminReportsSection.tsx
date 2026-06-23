@@ -42,8 +42,8 @@ export function AdminReportsSection({
             <div>{report.targetTitle}</div>
             <ItemText>{report.description}</ItemText>
             <ItemMeta>
-              상태 {getReportStatusLabel(report.status)} 쨌 우선순위 {getPriorityLabel(report.priority)}
-              {report.assignedAdmin ? ` 담당 ${report.assignedAdmin}` : ''}
+              상태 {getReportStatusLabel(report.status)} · 우선순위 {getPriorityLabel(report.priority)}
+              {report.assignedAdmin ? ` · 담당 ${report.assignedAdmin}` : ''}
             </ItemMeta>
             <ItemActions>
               <AdminActionButton type="button" onClick={() => onStartReview(report.id)}>
@@ -72,3 +72,4 @@ export function AdminReportsSection({
     </AdminCard>
   );
 }
+

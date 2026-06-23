@@ -1,5 +1,5 @@
 import { Navigate, useLocation } from 'react-router';
-import { useAuth } from './AuthContext';
+import { useAuth } from './useAuth';
 
 type RequireAdminAuthProps = {
   children: React.ReactNode;

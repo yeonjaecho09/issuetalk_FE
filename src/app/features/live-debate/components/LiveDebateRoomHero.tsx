@@ -11,7 +11,6 @@ import {
   ParticipantLabel,
   ParticipantName,
   ParticipantStance,
-  SummaryText,
   SummaryTitle,
   Tag,
   TagRow,
@@ -30,13 +29,12 @@ export function LiveDebateRoomHero({ room }: LiveDebateRoomHeroProps) {
         <HeroStatus $live={room.status === 'live'}>{formatRoomStatus(room.status)}</HeroStatus>
       </HeroTopRow>
       <SummaryTitle>{room.title}</SummaryTitle>
-      <SummaryText>{room.summary}</SummaryText>
       <HeroMetaRow>
-        <HeroMetaChip>吏꾪뻾??{room.host}</HeroMetaChip>
-        <HeroMetaChip>?쒖옉 {formatStartTime(room.startTime)}</HeroMetaChip>
-        <HeroMetaChip>?꾩옱 ?쒖껌??{room.viewers.toLocaleString()}紐?</HeroMetaChip>
-        <HeroMetaChip>?꾩쟻 硫붿떆吏 {room.messagesCount}媛?</HeroMetaChip>
-        <HeroMetaChip>?꾩껜 ?좊줎 ?쒓컙 42遺?</HeroMetaChip>
+        <HeroMetaChip>진행자 {room.host}</HeroMetaChip>
+        <HeroMetaChip>시작 {formatStartTime(room.startTime)}</HeroMetaChip>
+        <HeroMetaChip>현재 관전자 {room.viewers.toLocaleString()}명</HeroMetaChip>
+        <HeroMetaChip>누적 메시지 {room.messagesCount}개</HeroMetaChip>
+        <HeroMetaChip>전체 토론 시간 30분</HeroMetaChip>
       </HeroMetaRow>
       <TagRow>
         {room.tags.map(tag => (
@@ -45,12 +43,12 @@ export function LiveDebateRoomHero({ room }: LiveDebateRoomHeroProps) {
       </TagRow>
       <ParticipantGrid>
         <ParticipantCard>
-          <ParticipantLabel>?좊줎??A</ParticipantLabel>
+          <ParticipantLabel>토론자 A</ParticipantLabel>
           <ParticipantName>{room.debater1.name}</ParticipantName>
           <ParticipantStance>{room.debater1.stance}</ParticipantStance>
         </ParticipantCard>
         <ParticipantCard>
-          <ParticipantLabel>?좊줎??B</ParticipantLabel>
+          <ParticipantLabel>토론자 B</ParticipantLabel>
           <ParticipantName>{room.debater2.name}</ParticipantName>
           <ParticipantStance>{room.debater2.stance}</ParticipantStance>
         </ParticipantCard>
